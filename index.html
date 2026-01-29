@@ -322,7 +322,7 @@
             gap: 2rem;
             padding: 0 1.5rem;
             max-width: 1000px;
-            margin: 0 auto 6rem auto;
+            margin: 0 auto 4rem auto;
         }
 
         .info-card {
@@ -331,6 +331,14 @@
             padding: 2rem;
             border-radius: 20px;
             text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .info-card.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .info-icon {
@@ -343,6 +351,69 @@
             font-size: 1.2rem;
             margin-bottom: 1rem;
             font-weight: 600;
+        }
+
+        /* --- Personal Note Section --- */
+        .personal-message-container {
+            max-width: 900px;
+            margin: 0 auto 6rem auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .personal-card {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 24px;
+            padding: 3rem 2rem;
+            text-align: center;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 0 50px rgba(16, 185, 129, 0.15);
+            max-width: 100%;
+            width: 100%;
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .personal-card.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .personal-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+            animation: pulseGlow 4s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+            100% { transform: scale(0.8); opacity: 0.5; }
+        }
+
+        .message-text {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            font-weight: 600;
+            color: #fff;
+            position: relative;
+            z-index: 2;
+            line-height: 1.6;
+        }
+
+        .message-highlight {
+            color: #A7F3D0;
+            text-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
         }
 
         /* --- Footer --- */
@@ -430,11 +501,22 @@
                 <p style="color: #9ca3af;">Low oil, high fiber, easily digestible proteins. Focus on Moong Dal and seasonal vegetables.</p>
             </div>
         </section>
+
+        <!-- Personal Care Note Section -->
+        <section class="personal-message-container">
+            <div class="personal-card">
+                <p class="message-text">
+                    Take care of yourself , smile more often 🎀 ,<br>
+                    and <span class="message-highlight">jldi se theek hoja</span> 😙😙♥️
+                </p>
+            </div>
+        </section>
+
     </main>
 
     <footer>
-        <p>© 2026 Health Modern | Created based on Jatin Thakur's Protocol</p>
-        <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.6;">Disclaimer: Consult your doctor before major diet changes.</p>
+        <p>© 2026 Health Modern | Created By Jatin Thakur</p>
+        
     </footer>
 
     <script>
@@ -574,6 +656,10 @@
         document.querySelectorAll('.info-card').forEach(card => {
             observer.observe(card);
         });
+
+        // Add observer for personal note
+        const personalNote = document.querySelector('.personal-card');
+        if(personalNote) observer.observe(personalNote);
 
         // --- Header Scroll Effect ---
         window.addEventListener('scroll', () => {
